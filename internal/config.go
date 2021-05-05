@@ -2,7 +2,6 @@ package internal
 
 import (
 	"bufio"
-	"errors"
 	"log"
 	"os"
 	"path/filepath"
@@ -46,7 +45,7 @@ func (config *Config) FillInput() {
 					match[1] = k
 				}
 
-				print("please input '" + match[1] + "'>")
+				print("please input '" + match[1][1:] + "'>")
 				if !getScanner().Scan() {
 					log.Fatalln("Failed to read from stdin")
 				}
@@ -76,19 +75,10 @@ func ReadConfigFromFile(path string) (*Config, error) {
 	}
 
 	if cfg.WorkingDirectory == "" {
-		cfg.WorkingDirectory, err = os.Getwd()
-		if err != nil {
-			return nil, errors.New("failed to get cwd: " + err.Error())
-		}
+		cfg.WorkingDirectory = filepath.Dir(path)
 	} else if !filepath.IsAbs(cfg.WorkingDirectory) {
-		var cwd string
-		cwd, err = os.Getwd()
-		if err != nil {
-			return nil, errors.New("failed to get cwd: " + err.Error())
-		}
-		cfg.WorkingDirectory = filepath.Join(cwd, cfg.WorkingDirectory)
+		cfg.WorkingDirectory = filepath.Join(filepath.Dir(path), cfg.WorkingDirectory)
 	}
-	cfg.WorkingDirectory = NormalizePath(cfg.WorkingDirectory)
 
 	return cfg, nil
 }

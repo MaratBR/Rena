@@ -27,6 +27,9 @@ func (rena *Rena) stopTimer() int64 {
 }
 
 func (rena Rena) isExcluded(path string) bool {
+	if rena.Context.Config.IgnoreDotGit && (path == ".git" || strings.HasSuffix(path, "/.git")) {
+		return true
+	}
 	for _, pattern := range rena.Context.Config.Exclude {
 		if match, _ := filepath.Match(pattern, path); match {
 			return true
@@ -35,7 +38,7 @@ func (rena Rena) isExcluded(path string) bool {
 	return false
 }
 
-func (rena Rena) copyFile(src string, dest string) error {
+func (rena Rena) copyFile(src string, dest string, ignoreParserErrors bool) error {
 	newFile, err := os.Create(dest)
 
 	if err != nil {
@@ -56,10 +59,14 @@ func (rena Rena) copyFile(src string, dest string) error {
 		content = string(data)
 	}
 
-	content, err = rena.expand(content)
-	newFile.Write([]byte(content))
-
-	if err != nil {
+	var newContent string
+	newContent, err = rena.expand(content)
+	if err == nil {
+		newFile.Write([]byte(newContent))
+	} else if ignoreParserErrors {
+		newFile.Write([]byte(content))
+		log.Println("Error: " + err.Error())
+	} else {
 		return err
 	}
 
@@ -93,7 +100,7 @@ func (rena Rena) stripWorkDir(path string) string {
 	return path
 }
 
-func (rena Rena) CopyTo(dest string) error {
+func (rena Rena) CopyTo(dest string, ignoreParserErrors bool) error {
 	_ = os.Mkdir(dest, os.ModeDir)
 	workDir := rena.Context.Config.WorkingDirectory
 	return filepath.Walk(workDir, func(path string, info fs.FileInfo, err error) error {
@@ -111,22 +118,19 @@ func (rena Rena) CopyTo(dest string) error {
 			}
 		}
 
-		baseName, fileName := filepath.Split(pathNoWorkDir)
-
-		fileName, err = rena.expand(fileName)
+		pathNoWorkDir, err = rena.expand(pathNoWorkDir)
 		if err != nil {
 			return err
 		}
 
-		newBaseName := filepath.Join(dest, baseName)
-		newPath := filepath.Join(newBaseName, fileName)
+		newPath := filepath.Join(dest, pathNoWorkDir)
 
 		if info.IsDir() {
 			log.Println("mkdir: " + newPath)
 			return os.Mkdir(newPath, 0770)
 		} else {
 			rena.startTimer()
-			err = rena.copyFile(path, newPath)
+			err = rena.copyFile(path, newPath, ignoreParserErrors)
 			if err == nil {
 				log.Println(fmt.Sprint(rena.stopTimer()) + "us " + newPath)
 			}

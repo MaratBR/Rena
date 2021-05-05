@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace TestingThisFeature.Models
+namespace Testing.Models
 {
     public class User
     {

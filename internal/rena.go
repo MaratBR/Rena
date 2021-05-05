@@ -92,7 +92,7 @@ func (rena Rena) expand(text string) (string, error) {
 }
 
 // stripWorkDir removes workDir from beginning of provided path if it's there.
-// Returns string without '/' at the beginning. Will cause panic if called with workDir value.
+// Returns string without '/' at the beginning. Will panic if called with workDir value.
 func (rena Rena) stripWorkDir(path string) string {
 	if strings.HasPrefix(path, rena.Context.Config.WorkingDirectory) {
 		path = path[len(rena.Context.Config.WorkingDirectory)+1:]

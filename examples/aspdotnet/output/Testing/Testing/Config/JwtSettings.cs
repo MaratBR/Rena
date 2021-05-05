@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TestingThisFeature.Config
+namespace Testing.Config
 {
     public class JwtSettings
     {

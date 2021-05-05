@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace TestingThisFeature.Models
+namespace Testing.Models
 {
     public class AppDbContext : DbContext
     {

@@ -7,8 +7,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using TestingThisFeature.Config;
-using TestingThisFeature.Models;
+using Testing.Config;
+using Testing.Models;
 using CryptSharp;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,7 +16,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TestingThisFeature.Controllers
+namespace Testing.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

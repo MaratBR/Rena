@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace TestingThisFeature.Models
+namespace Testing.Models
 {
     public class RefreshToken
     {

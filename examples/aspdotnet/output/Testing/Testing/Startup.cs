@@ -1,5 +1,5 @@
-using TestingThisFeature.Config;
-using TestingThisFeature.Models;
+using Testing.Config;
+using Testing.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
-namespace TestingThisFeature
+namespace Testing
 {
     public class Startup
     {

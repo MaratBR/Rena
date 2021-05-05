@@ -1,6 +1,6 @@
 using System;
 
-namespace TestingThisFeature
+namespace Testing
 {
     public class WeatherForecast
     {

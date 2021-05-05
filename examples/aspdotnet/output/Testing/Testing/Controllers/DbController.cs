@@ -1,7 +1,7 @@
-﻿using TestingThisFeature.Models;
+﻿using Testing.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TestingThisFeature.Controllers
+namespace Testing.Controllers
 {
     public class DbController : ControllerBase
     {

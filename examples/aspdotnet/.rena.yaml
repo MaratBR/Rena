@@ -1,9 +1,0 @@
-workDir: ./input # relative to the configuration file's parent directory
-parameters:
-  projectName: "{>:Project name}" # prompts user to input the value
-  goals: [
-    "Start doing something",
-    "Make the world a better place", 
-    "I don't know",
-    "I haven't planned this far"
-  ]
